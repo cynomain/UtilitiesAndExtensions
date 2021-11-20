@@ -32,3 +32,17 @@ public static class Lang
         return string.Format(Get(key), format);
     }
 }
+
+public class TranslatableText
+{
+    string key;
+
+    public TranslatableText(string key)
+    {
+        this.key = key;
+    }
+
+    public string Get() => Lang.Get(key);
+
+    public static implicit operator string(TranslatableText tt) => Lang.Get(tt.key);
+}
