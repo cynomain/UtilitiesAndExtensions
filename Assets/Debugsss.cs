@@ -42,6 +42,7 @@ public class Debugsss : MonoBehaviour
         {
             BinaryBase64Test();
         }
+        
     }
 
     void XMLTest()
