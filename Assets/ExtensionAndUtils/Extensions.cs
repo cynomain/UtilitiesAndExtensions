@@ -336,6 +336,26 @@ public static class ExtensionsConversion
     }
 }
 
+public static class ExtensionsObjects{
+    public static bool IsEqualToAny<T>(this T obj, params T[] parameters){
+        for (int i = 0; i < parameters.Length; i++){
+            if (obj.Equals(parameters[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static bool IsEqualToAll<T>(this T obj, params T[] parameters){
+            for (int i = 0; i < parameters.Length; i++){
+            if (!obj.Equals(parameters[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
 /// <summary>
 /// Class of extensions : Complementary of custom classes
 /// </summary>
