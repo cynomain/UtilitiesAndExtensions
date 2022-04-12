@@ -1,75 +1,107 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-namespace DebugStuff
+public class Logger : MonoBehaviour
 {
-    public class Logger : MonoBehaviour
+
+    public bool StackTrace;
+    public string AdditionalPath = "Logs/{0}.log";
+    //string log = "";
+    //DateTime applicationStart;
+    public DateType datingType;
+
+
+    public void Awake()
     {
-        public bool StackTrace;
-        public string AdditionalPath = "/Logs/{0}.txt";
-        string log = "";
-        DateTime applicationStart;
-        public DateType datingType;
+        //applicationStart = DateTime.Now;
+        //log += $"## DATE : {DateTime.Today.ToShortDateString()} ##\n";
+        Application.logMessageReceived += OnLog;
+    }
 
-        public void Awake()
+    private void Start()
+    {
+        if (File.Exists(GetFullLatestPath()))
         {
-            applicationStart = DateTime.Now;
-            log += $"## DATE : {DateTime.Today.ToShortDateString()} ##\n";
-            Application.logMessageReceived += OnLog;
+            File.WriteAllText(GetFullLatestPath(), "");
         }
-
-        string determineDate(DateType type)
+        else
         {
-            switch (datingType)
-            {
-                case DateType.Time:
-                    return DateTime.Now.ToString("HH:mm:ss");
-                case DateType.Full:
-                    return DateTime.Now.ToString("dd:MM:yyyy/HH:mm:ss");
-            }
-            return "";
+            File.WriteAllText(GetFullLatestPath(), "");
         }
+    }
 
-        private void OnLog(string condition, string stackTrace, LogType type)
+    string determineDate(DateType type)
+    {
+        switch (datingType)
         {
-            string date = "";
-            if (datingType != DateType.None)
-            {
-                date = $"[{determineDate(datingType)}]";
-            }
-            string tobeadded = $"{date}[{type.ToString().ToUpper()}] {condition}";
-            if (StackTrace && type == LogType.Exception)
-            {
-                tobeadded += $"\n        {stackTrace}";
-            }
-            log += tobeadded + "\n";
-            //Debug.Log(tobeadded);
+            case DateType.Time:
+                return DateTime.Now.ToString("HH:mm:ss");
+            case DateType.Full:
+                return DateTime.Now.ToString("yyyy:MM:dd/HH:mm:ss");
         }
+        return "";
+    }
 
-        public void OnApplicationQuit()
+    private void OnLog(string condition, string stackTrace, LogType type)
+    {
+        string date = "";
+        if (datingType != DateType.None)
         {
-            string addPath = string.Format(AdditionalPath, applicationStart.ToString("dd-MM-yyyy#HH-mm-ss"));
-            FileReadWrite.PersistentDataPath.WriteFile(addPath, log);
+            date = $"[{determineDate(datingType)}]";
         }
-
-        public void OnEnable()
+        string tobeadded = $"{date}[{type.ToString().ToUpper()}] {condition}";
+        if (StackTrace && type == LogType.Exception)
         {
-            Application.logMessageReceived += OnLog;
+            tobeadded += $"\n        {stackTrace}";
         }
+        AddToLogFile(tobeadded);
+        //Debug.Log(tobeadded);
+    }
 
+    public void AddToLogFile(string s)
+    {
+        File.AppendAllText(GetFullPath(GetPathLatest()), "\n" + s);
+    }
 
-        public void OnDisable()
-        {
-            Application.logMessageReceived -= OnLog;
-        }
+    public void OnApplicationQuit()
+    {        
+        if (File.Exists(GetFullLatestPath()))
+         File.Copy(GetFullLatestPath(), GetFullPathDated());
+    }
 
-        public enum DateType
-        {
-            Time,
-            Full,
-            None
-        }
+    public string GetPathLatest()
+    {
+        return string.Format(AdditionalPath, "latest");
+    }
+
+    public string GetFullPath(string added)
+    {
+        return Path.Combine(Application.persistentDataPath, added);
+    }
+
+    public string GetFullLatestPath() => GetFullPath(GetPathLatest());
+
+    public string GetPathDated() => string.Format(AdditionalPath, DateTime.Now.ToString("dd-MM-yyyy#HH-mm-ss"));
+
+    public string GetFullPathDated() => Path.Combine(Application.persistentDataPath, GetPathDated());
+
+    public void OnEnable()
+    {
+        Application.logMessageReceived += OnLog;
+    }
+
+    public void OnDisable()
+    {
+        Application.logMessageReceived -= OnLog;
+    }
+
+    public enum DateType
+    {
+        Time,
+        Full,
+        None
     }
 }

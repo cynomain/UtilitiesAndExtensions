@@ -8,16 +8,58 @@ public class Debugsss : MonoBehaviour
     public StringStorage ss = new StringStorage();
     public StringStorage ssNew = new StringStorage();
 
+    public Transform lerpTest;
+    public float lerpedFloat;
+
     // Start is called before the first frame update
     void Start()
     {
         Debug.LogError("TEST ERROR");
         Debug.LogWarning("TEST WARN");
         Debug.LogException(new Exception("Test exception"));
+        UnsetBool ubF = false;
+        Debug.Log(ubF);
+        UnsetBool ubT = true;
+        Debug.Log(ubT);
+        UnsetBool ubU = UnsetBool.Unset;
+        Debug.Log(ubU);
+        
     }
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.L))
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                LerperFloat lf = new LerperFloat(this, -5f, 5f, 5f, (f) => { lerpedFloat = f; });
+                lf.BeginLerp();
+                Debug.Log("LF");
+            }
+
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                LerperVector3 lv3 = new LerperVector3(this, new Vector3(-10f, -10f, -10f), new Vector3(10f, 10f, 10f), 10, (v3) => { lerpTest.transform.position = v3; });
+                lv3.BeginLerp();
+                Debug.Log("LV");
+            }
+
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                LerperVector2 lv2 = new LerperVector2(this, new Vector2(-10f, -10f), new Vector2(10f, 10f), 10, (v2) => { lerpTest.transform.position = v2; });
+                lv2.BeginLerp();
+                Debug.Log("LB");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                LerperQuaternion lq = new LerperQuaternion(this, new Quaternion(0f, 0f, 0f, 0f), new Quaternion(1f, 1f, 1f, 1f), 10f ,(q) => { lerpTest.localRotation = q; });
+                lq.BeginLerp();
+                Debug.Log("LQ");
+            }
+
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.S))
         {
             StrSaveTest();
@@ -42,7 +84,10 @@ public class Debugsss : MonoBehaviour
         {
             BinaryBase64Test();
         }
-        
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            TestMsgBox();
+        }
     }
 
     void XMLTest()
@@ -156,6 +201,11 @@ public class Debugsss : MonoBehaviour
         Debug.Log(ssFromFile["testshort"].AsShort());
         Debug.Log(ssFromFile["testclass"].AsTypeJSON<TestClass>());
         Debug.Log(ssFromFile["testend"].AsString());
+    }
+
+    void TestMsgBox()
+    {
+        MsgBox.Show("Test TEXT", "Test CAPTION", "YesNoCancel");
     }
 
     [System.Serializable]

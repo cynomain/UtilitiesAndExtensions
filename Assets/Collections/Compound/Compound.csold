@@ -1,0 +1,147 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Compound : IList
+{
+    private List<CompoundObject> collection = new List<CompoundObject>();
+
+    public dynamic this[int index] { get => Get(index); set { Set(index, value); } }
+
+    public bool IsFixedSize => false;
+
+    public bool IsReadOnly => false;
+
+    public int Count => collection.Count;
+
+    public bool IsSynchronized => false;
+
+    public object SyncRoot => this;
+
+    public void Add<T>(T value)
+    {
+        collection.Add(new CompoundObject(value, typeof(T)));
+    }
+
+    public void Add(object value, Type type)
+    {
+        collection.Add(new CompoundObject(value, type));
+    }
+
+    public void Add(dynamic value)
+    {
+        var co = new CompoundObject();
+        co.SetValue(value);
+        collection.Add(co);
+    }
+
+    public void Clear()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Contains(object value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void CopyTo(Array array, int index)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    public int IndexOf(object value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Insert(int index, object value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Remove(object value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RemoveAt(int index)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Set(int index, object val, Type typ)
+    {
+        collection[index].SetValue(val, typ);
+    }
+
+    public void Set<T>(int index, T val)
+    {
+        collection[index].SetValue<T>(val);
+    }
+
+    public dynamic Get(int index) => collection[index].GetValue();
+
+    public struct CompoundObject
+    {
+        public Type type;
+        public object value;
+
+        public CompoundObject(object val, Type typ)
+        {
+            this.value = val;
+            this.type = typ;
+        }
+
+        public T GetValue<T>()
+        {
+            return (T)value;
+        }
+
+        public dynamic GetValue()
+        {
+            return Convert.ChangeType(value, type);
+        }
+
+        public void SetValue<T>(T val)
+        {
+            this.value = val;
+            this.type = typeof(T);
+        }
+
+        public void SetValue(object val, Type typ)
+        {
+            this.value = val;
+            this.type = typ;
+        }
+
+        /*
+        public enum CompoundType : byte
+        {
+            Int,
+            Long,
+            Short,
+            UInt,
+            ULong,
+            UShort,
+            Byte,
+            SByte,
+            Float,
+            Double,
+            Decimal,
+            String,
+            Enum,
+            Bool,
+            DateTime,
+
+            Custom
+        }
+        */
+    }
+}

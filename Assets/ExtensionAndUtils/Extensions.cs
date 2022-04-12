@@ -417,12 +417,6 @@ public class Utilities
         '9'
     };
 
-    /// <summary>
-    /// Swaps one object with another
-    /// </summary>
-    /// <typeparam name="T">Type</typeparam>
-    /// <param name="one">First object</param>
-    /// <param name="two">Second object</param>
     public static bool Swap<T>(ref T one, ref T two)
     {
         try
@@ -442,11 +436,6 @@ public class Utilities
 
     public static class Random
     {
-
-        /// <summary>
-        /// Returns a random bool
-        /// </summary>
-        /// <returns></returns>
         public static bool RandomBool()
         {
             int rand = UnityEngine.Random.Range(0, 2); //0-1
@@ -562,176 +551,248 @@ public class Utilities
         }
     }
 
-
-    /// <summary>
-    /// Returns an Int Array consisting of numbers ranged from min to max
-    /// </summary>
-    /// <param name="min">Range min</param>
-    /// <param name="max">Range max</param>
-    /// <returns>Int Array</returns>
-    public static int[] NewIntRangeArray(int min, int max)
+    public static class Numerals
     {
-        return NewIntRangeList(min, max).ToArray();
-    }
 
-    /// <summary>
-    /// Returns an Int List consisting of numbers ranged from min to max
-    /// </summary>
-    /// <param name="min">Range min</param>
-    /// <param name="max">Range max</param>
-    /// <returns>Int List</returns>
-    public static List<int> NewIntRangeList(int min, int max)
-    {
-        List<int> l = new List<int>();
-        for (int i = min; i < max + 1; i++)
+        /// <summary>
+        /// Returns an Int Array consisting of numbers ranged from min to max
+        /// </summary>
+        /// <param name="min">Range min</param>
+        /// <param name="max">Range max</param>
+        /// <returns>Int Array</returns>
+        public static int[] NewIntRangeArray(int min, int max)
         {
-            l.Add(i);
+            return NewIntRangeList(min, max).ToArray();
         }
-        return l;
-    }
 
-    /// <summary>
-    /// Returns a combined List of collection1 and 2
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="collection1">First collection</param>
-    /// <param name="collection2">Second collection</param>
-    /// <returns></returns>
-    public static List<T> CombineList<T>(IList<T> collection1, IList<T> collection2)
-    {
-        List<T> l1 = new List<T>(collection1);
-        l1.AddRange(collection2);
-        return l1;
-    }
-
-    /// <summary>
-    /// Returns a combined Array of collection1 and 2
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="collection1">First collection</param>
-    /// <param name="collection2">Second collection</param>
-    /// <returns></returns>
-    public static T[] CombineArray<T>(IList<T> collection1, IList<T> collection2)
-    {
-        List<T> l1 = new List<T>(collection1);
-        l1.AddRange(collection2);
-        return l1.ToArray();
-    }
-
-    /// <summary>
-    /// Returns the total value of an int array
-    /// </summary>
-    /// <param name="intArray">The Int Array</param>
-    /// <returns></returns>
-    public static int TotalInt(int[] intArray)
-    {
-        int temp = 0;
-        for (int i = 0; i < intArray.Length; i++)
+        /// <summary>
+        /// Returns an Int List consisting of numbers ranged from min to max
+        /// </summary>
+        /// <param name="min">Range min</param>
+        /// <param name="max">Range max</param>
+        /// <returns>Int List</returns>
+        public static List<int> NewIntRangeList(int min, int max)
         {
-            temp += intArray[i];
+            List<int> l = new List<int>();
+            for (int i = min; i < max + 1; i++)
+            {
+                l.Add(i);
+            }
+            return l;
         }
-        return temp;
-    }
 
-    /// <summary>
-    /// Returns the total value of an float array
-    /// </summary>
-    /// <param name="floatArray">The Float Array</param>
-    /// <returns></returns>
-    public static float TotalFloat(float[] floatArray)
-    {
-        float temp = 0;
-        for (int i = 0; i < floatArray.Length; i++)
+        /// <summary>
+        /// Returns the total value of an int array
+        /// </summary>
+        /// <param name="intArray">The Int Array</param>
+        /// <returns></returns>
+        public static int TotalInt(int[] intArray)
         {
-            temp += floatArray[i];
+            int temp = 0;
+            for (int i = 0; i < intArray.Length; i++)
+            {
+                temp += intArray[i];
+            }
+            return temp;
         }
-        return temp;
+
+        /// <summary>
+        /// Returns the total value of an float array
+        /// </summary>
+        /// <param name="floatArray">The Float Array</param>
+        /// <returns></returns>
+        public static float TotalFloat(float[] floatArray)
+        {
+            float temp = 0;
+            for (int i = 0; i < floatArray.Length; i++)
+            {
+                temp += floatArray[i];
+            }
+            return temp;
+        }
+
+        /// <summary>
+        /// Returns the Greatest Common Divisor of Ints
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <returns></returns>
+        public static int GCD(int[] numbers)
+        {
+            return numbers.Aggregate(GCD);
+        }
+
+        /// <summary>
+        /// Returns the Greatest Common Divisor of two Ints
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static int GCD(int a, int b)
+        {
+            return b == 0 ? a : GCD(b, a % b);
+        }
+
+        /// <summary>
+        /// Returns the average value of an int array as an int
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static int AverageToInt(int[] array)
+        {
+            return TotalInt(array) / array.Length;
+        }
+
+        /// <summary>
+        /// Returns the average value of an float array
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static float Average(int[] array)
+        {
+            return TotalInt(array) / array.Length;
+        }
+
+        /// <summary>
+        /// Returns the average value of an float array
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static float Average(float[] array)
+        {
+            return TotalFloat(array) / array.Length;
+        }
+
+        /// <summary>
+        /// Returns value as a variable (Not recommended to use)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int NewInt(int value) => value;
+
+        /// <summary>
+        /// Returns value as a variable (Not recommended to use)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static float NewFloat(float value) => value;
     }
 
-    /// <summary>
-    /// Returns the Greatest Common Divisor of Ints
-    /// </summary>
-    /// <param name="numbers"></param>
-    /// <returns></returns>
-    public static int GCD(int[] numbers)
+    public static class Collections
     {
-        return numbers.Aggregate(GCD);
+        /// <summary>
+        /// Returns a combined List of collection1 and 2
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection1">First collection</param>
+        /// <param name="collection2">Second collection</param>
+        /// <returns></returns>
+        public static List<T> CombineList<T>(IList<T> collection1, IList<T> collection2)
+        {
+            List<T> l1 = new List<T>(collection1);
+            l1.AddRange(collection2);
+            return l1;
+        }
+
+        /// <summary>
+        /// Returns a combined Array of collection1 and 2
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection1">First collection</param>
+        /// <param name="collection2">Second collection</param>
+        /// <returns></returns>
+        public static T[] CombineArray<T>(IList<T> collection1, IList<T> collection2)
+        {
+            List<T> l1 = new List<T>(collection1);
+            l1.AddRange(collection2);
+            return l1.ToArray();
+        }
+
+        /// <summary>
+        /// Converts 2Dimensional Array Index into a 1Dimensional Array Index
+        /// </summary>
+        /// <param name="x">Column/X index</param>
+        /// <param name="y">Row/Y index</param>
+        /// <param name="maxY">Row/Y Length</param>
+        /// <returns></returns>
+        public static int BiToUnidimensionalIndex(int x, int y, int maxY)
+        {
+            return x * maxY + y;
+        }
+
+        /// <summary>
+        /// Returns a new array from params parameter
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        public static T[] NewArray<T>(params T[] objs) => objs;
     }
 
-    /// <summary>
-    /// Returns the Greatest Common Divisor of two Ints
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    public static int GCD(int a, int b)
+    public static class QuadCreator
     {
-        return b == 0 ? a : GCD(b, a % b);
+        public static Mesh Create(float width, float height)
+        {
+            Mesh _mesh;
+
+            //var mf = GetComponent<MeshFilter>();
+            _mesh = new Mesh();
+            //mf.mesh = _mesh;
+
+            var vertices = new Vector3[4];
+
+            vertices[0] = new Vector3(0, 0, 0);
+            vertices[1] = new Vector3(width, 0, 0);
+            vertices[2] = new Vector3(0, height, 0);
+            vertices[3] = new Vector3(width, height, 0);
+
+            _mesh.vertices = vertices;
+
+            var tri = new int[6];
+
+            tri[0] = 0;
+            tri[1] = 2;
+            tri[2] = 1;
+
+            tri[3] = 2;
+            tri[4] = 3;
+            tri[5] = 1;
+
+            _mesh.triangles = tri;
+
+            var normals = new Vector3[4];
+
+            normals[0] = -Vector3.forward;
+            normals[1] = -Vector3.forward;
+            normals[2] = -Vector3.forward;
+            normals[3] = -Vector3.forward;
+
+            _mesh.normals = normals;
+
+            var uv = new Vector2[4];
+
+            uv[0] = new Vector2(0, 0);
+            uv[1] = new Vector2(1, 0);
+            uv[2] = new Vector2(0, 1);
+            uv[3] = new Vector2(1, 1);
+
+            _mesh.uv = uv;
+
+            return _mesh;
+        }
     }
 
-    /// <summary>
-    /// Returns the average value of an int array as an int
-    /// </summary>
-    /// <param name="array"></param>
-    /// <returns></returns>
-    public static int AverageToInt(int[] array)
+
+    public static Vector3 WorldMousePosition()
     {
-        return Utilities.TotalInt(array) / array.Length;
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    /// <summary>
-    /// Returns the average value of an float array
-    /// </summary>
-    /// <param name="array"></param>
-    /// <returns></returns>
-    public static float Average(int[] array)
+    public static Vector3 WorldToScreen(Vector3 position)
     {
-        return Utilities.TotalInt(array) / array.Length;
+        return Camera.main.WorldToScreenPoint(position);
     }
 
-    /// <summary>
-    /// Returns the average value of an float array
-    /// </summary>
-    /// <param name="array"></param>
-    /// <returns></returns>
-    public static float Average(float[] array)
-    {
-        return Utilities.TotalFloat(array) / array.Length;
-    }
 
-    /// <summary>
-    /// Converts 2Dimensional Array Index into a 1Dimensional Array Index
-    /// </summary>
-    /// <param name="x">Column/X index</param>
-    /// <param name="y">Row/Y index</param>
-    /// <param name="maxY">Row/Y Length</param>
-    /// <returns></returns>
-    public static int BiToUnidimensionalIndex(int x, int y, int maxY)
-    {
-        return x * maxY + y; 
-    }
-
-    /// <summary>
-    /// Returns value as a variable (Not recommended to use)
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public static int NewInt(int value) => value;
-
-    /// <summary>
-    /// Returns value as a variable (Not recommended to use)
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public static float NewFloat(float value) => value;
-
-    /// <summary>
-    /// Returns a new array from params parameter
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="objs"></param>
-    /// <returns></returns>
-    public static T[] NewArray<T>(params T[] objs) => objs;
 }
 
 public delegate void VoidDelegate();

@@ -51,7 +51,7 @@ public class TestScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            Debug.Log("Is 39 betweeen 1 and 30? : " + /*ExtensionsNumeric.IsBetween(39, 1, 30)*/ Utilities.NewInt(39).IsBetween(1,30));
+            Debug.Log("Is 39 betweeen 1 and 30? : " + /*ExtensionsNumeric.IsBetween(39, 1, 30)*/ Utilities.Numerals.NewInt(39).IsBetween(1,30));
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -106,6 +106,12 @@ public class TestScript : MonoBehaviour
             Debug.Log(xor);
             string back = FormatUtils.XOREncryption.EncryptDecrypt(xor, key);
             Debug.Log(back);
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("Getting...");
+            Debug.Log(WebUtils.GetRequest(@"https://raw.githubusercontent.com/cynomain/UtilitiesAndExtensions/main/Assets/Percentage.cs"));
         }
     }
 }

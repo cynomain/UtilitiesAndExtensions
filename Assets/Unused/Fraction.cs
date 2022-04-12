@@ -89,7 +89,7 @@ public struct Fraction
 
     private Fraction GetSimplified()
     {
-        int gcd = Utilities.GCD(_numer, _denom);
+        int gcd = Utilities.Numerals.GCD(_numer, _denom);
         _numer /= gcd;
         _denom /= gcd;
 

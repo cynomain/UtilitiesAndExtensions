@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-namespace Devon.Editors
+namespace CynoMain.Editors
 {
     [CustomPropertyDrawer(typeof(Percentage))]
     public class PercentagePropertyDrawer : PropertyDrawer
