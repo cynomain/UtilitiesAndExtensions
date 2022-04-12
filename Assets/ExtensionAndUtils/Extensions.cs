@@ -356,6 +356,36 @@ public static class ExtensionsObjects{
     }
 }
 
+public static class ExtensionsText
+{
+    public static bool IsVowel(this char c)
+    {
+        bool isVowel = "aeiouAEIOU".Contains(c);
+        return isVowel;
+    }
+
+    public static bool IsConsonant(this char c)
+    {
+        return !IsVowel(c);
+    }
+
+    public static bool StartsWithVowel(this string s)
+    {
+        if (s.Length == 0)
+        {
+            return false;
+        }
+        char c = s[0];
+        bool isVowel = c.IsVowel();
+        return isVowel;
+    }
+
+    public static bool StartsWithConsonant(this string s)
+    {
+        return !StartsWithVowel(s);
+    }
+}
+
 /// <summary>
 /// Class of extensions : Complementary of custom classes
 /// </summary>
@@ -416,6 +446,7 @@ public class Utilities
         '8',
         '9'
     };
+    public static readonly KeyCode[] keycodes = System.Enum.GetValues(typeof(KeyCode)) as KeyCode[];
 
     public static bool Swap<T>(ref T one, ref T two)
     {
@@ -431,6 +462,63 @@ public class Utilities
         {
             return false;
             throw;
+        }
+    }
+
+    public static KeyCode GetWhatKey()
+    {
+        if (Input.anyKey)
+        {
+            for (int i = 0; i < keycodes.Length; i++)
+            {
+                if (Input.GetKey(keycodes[i]))
+                {
+                    return keycodes[i];
+                }
+            }
+            return KeyCode.None;
+        }
+        else
+        {
+            return KeyCode.None;
+        }
+    }
+
+    public static KeyCode GetWhatKeyDown()
+    {
+        if (Input.anyKey)
+        {
+            for (int i = 0; i < keycodes.Length; i++)
+            {
+                if (Input.GetKeyDown(keycodes[i]))
+                {
+                    return keycodes[i];
+                }
+            }
+            return KeyCode.None;
+        }
+        else
+        {
+            return KeyCode.None;
+        }
+    }
+
+    public static KeyCode GetWhatKeyUp()
+    {
+        if (Input.anyKey)
+        {
+            for (int i = 0; i < keycodes.Length; i++)
+            {
+                if (Input.GetKeyUp(keycodes[i]))
+                {
+                    return keycodes[i];
+                }
+            }
+            return KeyCode.None;
+        }
+        else
+        {
+            return KeyCode.None;
         }
     }
 
@@ -553,7 +641,6 @@ public class Utilities
 
     public static class Numerals
     {
-
         /// <summary>
         /// Returns an Int Array consisting of numbers ranged from min to max
         /// </summary>

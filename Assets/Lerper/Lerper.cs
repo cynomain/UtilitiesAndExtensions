@@ -16,6 +16,19 @@ public class LerperFloat
         this.duration = duration;
     }
 
+    public LerperFloat(MonoBehaviour handle, float begin, float end, float duration, Action<float> act, bool autoStart)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+        if (autoStart)
+        {
+            BeginLerp();
+        }
+    }
+
     public void BeginLerp()
     {
         handle.StartCoroutine(LerpSequence());
@@ -61,6 +74,77 @@ public class LerperFloat
     }
 }
 
+public class LerperInt
+{
+    MonoBehaviour handle;
+
+    public LerperInt(MonoBehaviour handle, int begin, int end, float duration, Action<int> act)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+    }
+
+    public LerperInt(MonoBehaviour handle, int begin, int end, float duration, Action<int> act, bool autoStart)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+        if (autoStart)
+        {
+            BeginLerp();
+        }
+    }
+
+    public void BeginLerp()
+    {
+        handle.StartCoroutine(LerpSequence());
+    }
+
+    public void ForceStopLerp()
+    {
+        handle.StopCoroutine(LerpSequence());
+    }
+
+    Action<int> act;
+
+    float timeElapsed;
+    float duration;
+    int begin;
+    int end;
+    public int Value;
+
+    public IEnumerator LerpSequence()
+    {
+        timeElapsed = 0f;
+        Value = begin;
+        act(Value);
+        while (timeElapsed < duration)
+        {
+            Value = (int)Mathf.Lerp(begin, end, timeElapsed / duration);
+            act(Value);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        Value = end;
+        act(Value);
+    }
+
+    public void Reset()
+    {
+        act = null;
+        timeElapsed = 0f;
+        duration = 0f;
+        begin = 0;
+        end = 0;
+        Value = 0;
+    }
+}
+
 public class LerperVector3
 {
     MonoBehaviour handle;
@@ -72,6 +156,19 @@ public class LerperVector3
         this.begin = begin;
         this.end = end;
         this.duration = duration;
+    }
+
+    public LerperVector3(MonoBehaviour handle, Vector3 begin, Vector3 end, float duration, Action<Vector3> act, bool autoStart)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+        if (autoStart)
+        {
+            BeginLerp();
+        }
     }
 
     public void BeginLerp()
@@ -132,6 +229,19 @@ public class LerperVector2
         this.duration = duration;
     }
 
+    public LerperVector2(MonoBehaviour handle, Vector2 begin, Vector2 end, float duration, Action<Vector2> act, bool autoStart)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+        if (autoStart)
+        {
+            BeginLerp();
+        }
+    }
+
     public void BeginLerp()
     {
         handle.StartCoroutine(LerpSequence());
@@ -190,6 +300,19 @@ public class LerperQuaternion
         this.duration = duration;
     }
 
+    public LerperQuaternion(MonoBehaviour handle, Quaternion begin, Quaternion end, float duration, Action<Quaternion> act, bool autoStart)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+        if (autoStart)
+        {
+            BeginLerp();
+        }
+    }
+
     public void BeginLerp()
     {
         handle.StartCoroutine(LerpSequence());
@@ -232,5 +355,151 @@ public class LerperQuaternion
         begin = Quaternion.identity;
         end = Quaternion.identity;
         Value = Quaternion.identity;
+    }
+}
+
+public class LerperColor
+{
+    MonoBehaviour handle;
+
+    public LerperColor(MonoBehaviour handle, Color begin, Color end, float duration, Action<Color> act)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+    }
+
+    public LerperColor(MonoBehaviour handle, Color begin, Color end, float duration, Action<Color> act, bool autoStart)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.begin = begin;
+        this.end = end;
+        this.duration = duration;
+        if (autoStart)
+        {
+            BeginLerp();
+        }
+    }
+
+    public void BeginLerp()
+    {
+        handle.StartCoroutine(LerpSequence());
+    }
+
+    public void ForceStopLerp()
+    {
+        handle.StopCoroutine(LerpSequence());
+    }
+
+    Action<Color> act;
+
+    float timeElapsed;
+    float duration;
+    Color begin;
+    Color end;
+    public Color Value;
+
+    public IEnumerator LerpSequence()
+    {
+        timeElapsed = 0f;
+        Value = begin;
+        act(Value);
+        while (timeElapsed < duration)
+        {
+            Value = Color.Lerp(begin, end, timeElapsed / duration);
+            act(Value);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        Value = end;
+        act(Value);
+    }
+
+    public void Reset()
+    {
+        act = null;
+        timeElapsed = 0f;
+        duration = 0f;
+        begin = Color.black;
+        end = Color.black;
+        Value = Color.black;
+    }
+}
+
+public class LerperString
+{
+    MonoBehaviour handle;
+
+    public LerperString(MonoBehaviour handle, string end, float duration, Action<string> act)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.end = end;
+        this.duration = duration;
+    }
+
+    public LerperString(MonoBehaviour handle, string end, float duration, Action<string> act, bool autoStart)
+    {
+        this.handle = handle;
+        this.act = act;
+        this.end = end;
+        this.duration = duration;
+        if (autoStart)
+        {
+            BeginLerp();
+        }
+    }
+
+    public void BeginLerp()
+    {
+        handle.StartCoroutine(LerpSequence());
+    }
+
+    public void ForceStopLerp()
+    {
+        handle.StopCoroutine(LerpSequence());
+    }
+
+    Action<string> act;
+
+    float timeElapsed;
+    float duration;
+    string end;
+    public string Value;
+    float interval;
+    int currentIndex;
+
+    public IEnumerator LerpSequence()
+    {
+        timeElapsed = 0f;
+        interval = duration / end.Length; //10 secs / 10 letters = 1seconds\
+        currentIndex = 0;
+        Value = string.Empty;
+        act(Value);
+        while (timeElapsed < duration)
+        {
+            yield return new WaitForSeconds(interval);
+            Value += end[currentIndex];
+            currentIndex++;
+            act(Value);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        Value = end;
+        act(Value);
+    }
+
+    public void Reset()
+    {
+        act = null;
+        timeElapsed = 0f;
+        duration = 0f;
+        end = string.Empty;
+        currentIndex = 0;
+        interval = 0f;
+        Value = string.Empty;
     }
 }
