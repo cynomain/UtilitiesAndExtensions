@@ -465,61 +465,65 @@ public class Utilities
         }
     }
 
-    public static KeyCode GetWhatKey()
+    public static class Inputs
     {
-        if (Input.anyKey)
+        public static KeyCode GetWhatKey()
         {
-            for (int i = 0; i < keycodes.Length; i++)
+            if (Input.anyKey)
             {
-                if (Input.GetKey(keycodes[i]))
+                for (int i = 0; i < keycodes.Length; i++)
                 {
-                    return keycodes[i];
+                    if (Input.GetKey(keycodes[i]))
+                    {
+                        return keycodes[i];
+                    }
                 }
+                return KeyCode.None;
             }
-            return KeyCode.None;
+            else
+            {
+                return KeyCode.None;
+            }
         }
-        else
-        {
-            return KeyCode.None;
-        }
-    }
 
-    public static KeyCode GetWhatKeyDown()
-    {
-        if (Input.anyKey)
+        public static KeyCode GetWhatKeyDown()
         {
-            for (int i = 0; i < keycodes.Length; i++)
+            if (Input.anyKey)
             {
-                if (Input.GetKeyDown(keycodes[i]))
+                for (int i = 0; i < keycodes.Length; i++)
                 {
-                    return keycodes[i];
+                    if (Input.GetKeyDown(keycodes[i]))
+                    {
+                        return keycodes[i];
+                    }
                 }
+                return KeyCode.None;
             }
-            return KeyCode.None;
+            else
+            {
+                return KeyCode.None;
+            }
         }
-        else
-        {
-            return KeyCode.None;
-        }
-    }
 
-    public static KeyCode GetWhatKeyUp()
-    {
-        if (Input.anyKey)
+        public static KeyCode GetWhatKeyUp()
         {
-            for (int i = 0; i < keycodes.Length; i++)
+            if (Input.anyKey)
             {
-                if (Input.GetKeyUp(keycodes[i]))
+                for (int i = 0; i < keycodes.Length; i++)
                 {
-                    return keycodes[i];
+                    if (Input.GetKeyUp(keycodes[i]))
+                    {
+                        return keycodes[i];
+                    }
                 }
+                return KeyCode.None;
             }
-            return KeyCode.None;
+            else
+            {
+                return KeyCode.None;
+            }
         }
-        else
-        {
-            return KeyCode.None;
-        }
+
     }
 
     public static class Random
@@ -879,7 +883,15 @@ public class Utilities
         return Camera.main.WorldToScreenPoint(position);
     }
 
-
+    /// <summary>
+    /// Transforms value 0 to 1 into AudioMixer volume
+    /// </summary>
+    /// <param name="percent">Value between 0 and 1</param>
+    /// <returns></returns>
+    public float PercentToMixerVolume(float percent)
+    {
+        return Mathf.Log10(percent) * 20f;
+    }
 }
 
 public delegate void VoidDelegate();
