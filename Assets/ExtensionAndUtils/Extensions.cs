@@ -404,6 +404,9 @@ public static class ExtensionsComplementary
 /// </summary>
 public class Utilities
 {
+    /// <summary>
+    /// Array of uppercase letters
+    /// </summary>
     public static readonly char[] uppercaseLetters = new char[26]
     {
         'A',
@@ -433,6 +436,10 @@ public class Utilities
         'Y',
         'Z'
     };
+
+    /// <summary>
+    /// Array of numbers from 0 to 9
+    /// </summary>
     public static readonly char[] numbers = new char[10]
     {
         '0',
@@ -446,8 +453,19 @@ public class Utilities
         '8',
         '9'
     };
+
+    /// <summary>
+    /// Array of all keycodes
+    /// </summary>
     public static readonly KeyCode[] keycodes = System.Enum.GetValues(typeof(KeyCode)) as KeyCode[];
 
+    /// <summary>
+    /// Swaps 2 variables' value
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="one">First variable</param>
+    /// <param name="two">Second variable</param>
+    /// <returns>Returns false if the operation was unsuccessful</returns>
     public static bool Swap<T>(ref T one, ref T two)
     {
         try
@@ -465,6 +483,9 @@ public class Utilities
         }
     }
 
+    /// <summary>
+    /// Collection of input utilities
+    /// </summary>
     public static class Inputs
     {
         public static KeyCode GetWhatKey()
@@ -526,6 +547,9 @@ public class Utilities
 
     }
 
+    /// <summary>
+    /// Collection of randomness utilities
+    /// </summary>
     public static class Random
     {
         public static bool RandomBool()
@@ -643,6 +667,9 @@ public class Utilities
         }
     }
 
+    /// <summary>
+    /// Collection of numeral utilities
+    /// </summary>
     public static class Numerals
     {
         /// <summary>
@@ -768,6 +795,9 @@ public class Utilities
         public static float NewFloat(float value) => value;
     }
 
+    /// <summary>
+    /// Collection of collection utilities
+    /// </summary>
     public static class Collections
     {
         /// <summary>
@@ -817,8 +847,50 @@ public class Utilities
         /// <param name="objs"></param>
         /// <returns></returns>
         public static T[] NewArray<T>(params T[] objs) => objs;
+
+        /// <summary>
+        /// Returns a new empty array of the given type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T[] NewEmptyArray<T>() => new T[0];
     }
 
+    /// <summary>
+    /// Collection of GameObject utilities
+    /// </summary>
+    public static class GameObjects
+    {
+        public static GameObject InstantiateEmpty(string name, Vector3 position, Quaternion rotation, bool dontDestroyOnLoad = false, params System.Type[] components)
+        {
+            GameObject go = new GameObject(name, components);
+            GameObject instantiated = Object.Instantiate(go, position, rotation);
+            if (dontDestroyOnLoad)
+            {
+                Object.DontDestroyOnLoad(go);
+            }
+            return instantiated;
+        }
+
+        public static GameObject InstantiateEmpty(string name, Vector3 position, bool dontDestroyOnLoad = false, params System.Type[] components)
+        {
+            return InstantiateEmpty(name, position, Quaternion.identity, dontDestroyOnLoad, components);
+        }
+
+        public static GameObject InstantiateEmpty(string name, bool dontDestroyOnLoad = false, params System.Type[] components)
+        {
+            return InstantiateEmpty(name, Vector3.zero, Quaternion.identity, dontDestroyOnLoad, components);
+        }
+
+        public static GameObject InstantiateEmpty(string name, bool dontDestroyOnLoad = false)
+        {
+            return InstantiateEmpty(name, dontDestroyOnLoad, Utilities.Collections.NewEmptyArray<System.Type>());
+        }
+    }
+
+    /// <summary>
+    /// Quad Mesh Creator 
+    /// </summary>
     public static class QuadCreator
     {
         public static Mesh Create(float width, float height)
@@ -872,12 +944,20 @@ public class Utilities
         }
     }
 
-
+    /// <summary>
+    /// Gets the world position of the mouse based on Camera.main
+    /// </summary>
+    /// <returns></returns>
     public static Vector3 WorldMousePosition()
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
+    /// <summary>
+    /// Converts world position to screen position
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     public static Vector3 WorldToScreen(Vector3 position)
     {
         return Camera.main.WorldToScreenPoint(position);
@@ -891,7 +971,7 @@ public class Utilities
     public float PercentToMixerVolume(float percent)
     {
         return Mathf.Log10(percent) * 20f;
-    }
+    }  
 }
 
 public delegate void VoidDelegate();
