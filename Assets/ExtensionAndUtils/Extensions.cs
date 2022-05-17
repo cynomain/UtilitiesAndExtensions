@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -277,6 +278,19 @@ public static class ExtensionsCollection
         sb.Append(" }");
         return sb.ToString();
     }
+
+    public static void Resize<T>(this T[] col, int newSize)
+    {
+        System.Array.Resize(ref col, newSize);
+    }
+
+    public static void ForEach<T>(this IList<T> col, System.Action<T> act)
+    {
+        for (int i = 0; i < col.Count; i++)
+        {
+            act(col[i]);
+        }
+    }  
 }
 
 /// <summary>
@@ -886,6 +900,50 @@ public class Utilities
         {
             return InstantiateEmpty(name, dontDestroyOnLoad, Utilities.Collections.NewEmptyArray<System.Type>());
         }
+    }
+
+    public static class Files
+    {
+        public static string[] GetFilePathsFromDirectory(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                Debug.LogError("Directory does not exist: " + directoryPath);
+                return null;
+            }
+            return Directory.GetFiles(directoryPath);
+        }
+
+        public static string[] ApplyExtensionFilter(string[] filePaths, params string[] extensions)
+        {
+            List<string> finalextensions = new List<string>(extensions);
+            for (int i = 0; i < extensions.Length; i++)
+            {
+                string upper = extensions[i].ToUpper();
+                if (!finalextensions.Contains(upper))
+                {
+                    finalextensions.Add(upper);
+                }
+            }
+
+            List<string> filePathsResult = new List<string>();
+
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                for (int j = 0; j < finalextensions.Count; j++)
+                {
+                    if (filePaths[i].EndsWith(finalextensions[i]))
+                    {
+                        filePathsResult.Add(filePaths[i]);
+                        break;
+                    }
+                }
+            }
+
+            return filePathsResult.ToArray();
+        }
+
+
     }
 
     /// <summary>
