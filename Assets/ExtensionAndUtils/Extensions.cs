@@ -263,19 +263,19 @@ public static class ExtensionsCollection
     /// <returns></returns>
     public static string ToStringAlt<T>(this IList<T> col)
     {
-        StringBuilder sb = new StringBuilder("{ ");
+        StringBuilder sb = new StringBuilder("{");
         for (int i = 0; i < col.Count; i++)
         {
             if (i == col.Count - 1)
             {
-                //Akhiran
+                //Ending
                 sb.Append(col[i].ToString());
                 continue;
             }
             sb.Append(col[i].ToString());
             sb.Append(", ");
         }
-        sb.Append(" }");
+        sb.Append("}");
         return sb.ToString();
     }
 
@@ -291,6 +291,31 @@ public static class ExtensionsCollection
             act(col[i]);
         }
     }  
+
+    public static void Sort<T>(this T[] array, IComparer comparer)
+    {
+        System.Array.Sort(array, comparer);
+    }
+
+    public static T Find<T>(this T[] array, System.Predicate<T> match)
+    {
+        return System.Array.Find(array, match);
+    }
+
+    public static T[] FindAll<T>(this T[] array, System.Predicate<T> match)
+    {
+        return System.Array.FindAll(array, match);
+    }
+
+    public static bool Exists<T>(this T[] array, System.Predicate<T> match)
+    {
+        return System.Array.Exists(array, match);
+    }
+
+    public static void Reverse<T>(this T[] array)
+    {
+        System.Array.Reverse(array);
+    }
 }
 
 /// <summary>
@@ -397,6 +422,16 @@ public static class ExtensionsText
     public static bool StartsWithConsonant(this string s)
     {
         return !StartsWithVowel(s);
+    }
+
+    public static bool IsNullOrEmpty(this string s)
+    {
+        return string.IsNullOrEmpty(s);
+    }
+
+    public static bool IsNullOrWhitespace(this string s)
+    {
+        return string.IsNullOrWhiteSpace(s);
     }
 }
 
@@ -694,7 +729,8 @@ public class Utilities
         /// <returns>Int Array</returns>
         public static int[] NewIntRangeArray(int min, int max)
         {
-            return NewIntRangeList(min, max).ToArray();
+            var enumer = Enumerable.Range(min, max - min + 1);
+            return enumer.ToArray();
         }
 
         /// <summary>
@@ -705,12 +741,8 @@ public class Utilities
         /// <returns>Int List</returns>
         public static List<int> NewIntRangeList(int min, int max)
         {
-            List<int> l = new List<int>();
-            for (int i = min; i < max + 1; i++)
-            {
-                l.Add(i);
-            }
-            return l;
+            var enumer = Enumerable.Range(min, max - min + 1); 
+            return enumer.ToList();
         }
 
         /// <summary>
@@ -735,12 +767,15 @@ public class Utilities
         /// <returns></returns>
         public static float TotalFloat(float[] floatArray)
         {
+            /*
             float temp = 0;
             for (int i = 0; i < floatArray.Length; i++)
             {
                 temp += floatArray[i];
-            }
+            }            
             return temp;
+            */
+            return floatArray.Sum();
         }
 
         /// <summary>

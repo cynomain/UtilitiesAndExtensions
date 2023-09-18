@@ -14,7 +14,7 @@ public static class WebUtils
             {
                 Debug.LogError($"UnityWebRequest (GET) failed with result [{uwr.result}] and response code [{uwr.responseCode}]");
                 return null;
-            }
+            }            
             return uwr.downloadHandler.text;
         }
     }
@@ -33,7 +33,7 @@ public static class WebUtils
 
     public static void PostRequest(string url, string formFields)
     {
-        using (UnityWebRequest uwr = UnityWebRequest.Post(url, formFields))
+        using (UnityWebRequest uwr = UnityWebRequest.PostWwwForm(url, formFields))
         {
             uwr.SendWebRequest();
             if (uwr.result != UnityWebRequest.Result.Success)

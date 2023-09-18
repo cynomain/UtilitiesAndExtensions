@@ -104,7 +104,7 @@ public class MsgBox
 
             return strResult;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return string.Empty;
         }
